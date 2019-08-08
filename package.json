@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "dagre": "^0.8.4",
     "react": "^16.8.6",
     "react-css-modules": "^4.7.11",

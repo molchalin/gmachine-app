@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
-import Info from './Info.js';
-import Main from './Main.js';
-
+import Info from '../Info';
+import Main from '../Main';
 
 class App extends Component {
     state = { page: "info" }

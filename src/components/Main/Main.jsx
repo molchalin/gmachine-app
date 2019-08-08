@@ -1,36 +1,102 @@
 import React from 'react';
-import Visualization from './Visualization.js';
+import Visualization from '../Visualization';
+import Button from "../Button";
+
 import css from './Main.module.css';
 
-
+const emptyDiff = {
+    add: {
+        nodes: [],
+        edges: [],
+    },
+    remove: {
+        nodes: [],
+        edges: [],
+    },
+    stack: [],
+};
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          value: initialCode,
-          commands: [],
+            counter: 0,
+            diff: Object.assign({}, emptyDiff),
+            value: initialCode,
+            commands: [],
         };
     };
-    handleSubmit = (event) =>  {
+
+    handleSubmit = event =>  {
         event.preventDefault();
-        this.setState({commands: initialState.commands});
+        this.setState(initialState);
     };
-    render(){
-      return (
-          <div className={css.container}>
-            <Visualization commands={this.state.commands} />
-            <div className={css.textarea}>
-              <form className={css.field} onSubmit={this.handleSubmit}>
-                <textarea className={css.field} value={this.state.value} disabled/>
-                <input type="submit" value="Отправить" />
-              </form>
-              <button onClick={this.props.handleClick} className={css.button}>
-                Назад
-              </button>
+
+    increase = () => this.setState(({ counter, commands }) => {
+        if (counter !== commands.length) {
+            return {
+                diff: commands[counter],
+                counter: counter + 1,
+            }
+        }
+
+        const diff = Object.assign({}, emptyDiff);
+        if (commands.length > 1) {
+            diff.stack = commands[commands.length - 1].stack;
+        }
+        return { diff }
+    })
+
+    decrease = () => this.setState((state) => {
+        if (state.counter > 0) {
+            state.counter -= 1;
+            const {add, remove} = state.commands[state.counter];
+            let stack = [];
+            if (state.counter > 0) {
+                stack = state.commands[state.counter - 1].stack;
+            }
+            state.diff = { remove: add, add: remove, stack };
+            return state;
+        }
+        return {
+            diff: Object.assign({}, emptyDiff)
+        }
+    });
+
+    render() {
+        const { value, commands, diff, counter } = this.state;
+
+        return (
+            <div className={css.container}>
+                <Visualization diff={diff} counter={counter} commands={commands} />
+                <div className={css.formContainer}>
+                <form className={css.form} onSubmit={this.handleSubmit}>
+                    <textarea defaultValue={value} className={css.textarea} />
+                    <div className={css.buttons}>
+                        <Button className={css.button} type="submit">Отправить</Button>
+                        <Button
+                            type="button"
+                            onClick={this.props.handleClick}
+                            className={css.button}
+                        >
+                            Назад
+                        </Button>
+                        <Button
+                            type="button"
+                            disabled={!commands.length || counter === commands.length - 1}
+                            onClick={this.increase}
+                            className={css.moreButton}
+                        >
+                            +
+                        </Button>
+                        <Button type="button" disabled={counter === 0} onClick={this.decrease} className={css.lessButton}>
+                            -
+                        </Button>
+                    </div>
+                </form>
+                </div>
             </div>
-          </div>
-      )
+        )
     };
 }
 
@@ -152,5 +218,7 @@ const initialState = {
         },
     ],
 };
+
 const initialCode = initialState.commands.map(x => x.command).join("\n");
+
 export default Main;

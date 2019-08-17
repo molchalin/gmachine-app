@@ -31,21 +31,3 @@
     background: #999;
     color: #333;
 }
-
-.moreButton {
-    display: inline;
-    position: relative;
-    top: 0;
-}
-
-.lessButton {
-    display: inline;
-    position: relative;
-    left: 1%;
-    top: 3%;
-}
-
-.moreButton,
-.lessButton {
-    width: 50px;
-}

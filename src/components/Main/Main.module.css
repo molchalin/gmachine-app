@@ -1,8 +1,8 @@
 .container {
     display: flex;
     flex-direction: row;
-    height: 100vh;
-    width: 100wh;
+    height: 100%;
+    width: 100%;
 }
 
 .formContainer {
@@ -26,7 +26,12 @@
     height: 81px;
 }
 
+.lessButton {
+    margin-right: 0;
+}
+
 .textarea {
+    font-family: Arial, sans-serif;
     height: 100%;
     background-color: #333;
     border: none;
@@ -34,7 +39,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    color: #92EE1C;
+    color: #92ee1c;
     resize: none;
     padding: 10px;
     font-size: 15px;

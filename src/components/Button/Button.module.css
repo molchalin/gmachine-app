@@ -13,19 +13,17 @@
     background: #333;
     box-sizing: border-box;
     color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 2px 2px 2px 0;
 }
 
 .button:hover {
-    background: #92EE1C;
+    background: #92ee1c;
     color: #333;
 }
 
 .button:disabled {
     background: #999;
     color: #333;
-}
-
-.button:last-child {
-    margin-right: 0;
 }

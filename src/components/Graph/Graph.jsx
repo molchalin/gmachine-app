@@ -54,7 +54,7 @@ class Graph extends React.Component {
                 x: dgr.node(t).x,
                 y: dgr.node(t).y,
                 label: dgr.node(t).label,
-                color: "#92EE1C",
+                color: "#000",
                 size: 1,
             })),
             edges: dgr.edges().map(({v: source, w: target}) => ({

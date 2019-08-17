@@ -1,6 +1,7 @@
 import React from 'react';
 import Visualization from '../Visualization';
 import Button from "../Button";
+import InfoModal from "../InfoModal";
 
 import css from './Main.module.css';
 
@@ -24,6 +25,7 @@ class Main extends React.Component {
             diff: Object.assign({}, emptyDiff),
             value: initialCode,
             commands: [],
+            isModalOpened: false
         };
     };
 
@@ -31,6 +33,10 @@ class Main extends React.Component {
         event.preventDefault();
         this.setState(initialState);
     };
+
+    openModal = () => this.setState({ isModalOpened: true });
+
+    closeModal = () => this.setState({ isModalOpened: false });
 
     increase = () => this.setState(({ counter, commands }) => {
         if (counter !== commands.length) {
@@ -64,38 +70,43 @@ class Main extends React.Component {
     });
 
     render() {
-        const { value, commands, diff, counter } = this.state;
+        const { value, commands, diff, counter, isModalOpened } = this.state;
 
         return (
-            <div className={css.container}>
-                <Visualization diff={diff} counter={counter} commands={commands} />
-                <div className={css.formContainer}>
-                <form className={css.form} onSubmit={this.handleSubmit}>
-                    <textarea defaultValue={value} className={css.textarea} />
-                    <div className={css.buttons}>
-                        <Button className={css.button} type="submit">Отправить</Button>
-                        <Button
-                            type="button"
-                            onClick={this.props.handleClick}
-                            className={css.button}
-                        >
-                            Назад
-                        </Button>
-                        <Button
-                            type="button"
-                            disabled={!commands.length || counter === commands.length - 1}
-                            onClick={this.increase}
-                            className={css.moreButton}
-                        >
-                            +
-                        </Button>
-                        <Button type="button" disabled={counter === 0} onClick={this.decrease} className={css.lessButton}>
-                            -
-                        </Button>
+            <>
+                <main onClick={isModalOpened ? this.closeModal : () => {}} className={css.container}>
+                    <Visualization diff={diff} counter={counter} commands={commands} />
+                    <div className={css.formContainer}>
+                    <form className={css.form} onSubmit={this.handleSubmit}>
+                        <textarea defaultValue={value} className={css.textarea} />
+                        <div className={css.buttons}>
+                            <Button className={css.button} title="Отправить" type="submit">
+                                Отправить
+                            </Button>
+                            <Button
+                                title="Справка"
+                                type="button"
+                                onClick={this.openModal}
+                                className={css.button}
+                            >
+                                Справка
+                            </Button>
+                            <Button
+                                type="button"
+                                disabled={!commands.length || counter === commands.length - 1}
+                                onClick={this.increase}
+                            >
+                                +
+                            </Button>
+                            <Button type="button" disabled={counter === 0} onClick={this.decrease} className={css.lessButton}>
+                                -
+                            </Button>
+                        </div>
+                    </form>
                     </div>
-                </form>
-                </div>
-            </div>
+                </main>
+                <InfoModal handleClose={this.closeModal} isOpened={isModalOpened} />
+            </>
         )
     };
 }

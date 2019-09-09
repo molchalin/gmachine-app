@@ -6,14 +6,16 @@ const InfoModal = ({ handleClose, isOpened }) => (
   <>
     <section onClick={handleClose} className={classNames(css.section, { [css.opened]: isOpened })} />
     <div className={classNames(css.modal, { [css.opened]: isOpened })}>
-      <button onClick={handleClose} className={css.close} />
-      <h1 className={css.heading}>
-        Добро пожаловать в симулятор G-машины
-      </h1> 
-      <p className={css.subtitle}>
-        В качестве команд G-машины используется последовательность макросов, приведенная в таблице:
-      </p>
       <div className={css.tableContainer}>
+        <div className={css.headingWrap}>
+          <h1 className={css.heading}>
+            Добро пожаловать в симулятор G-машины
+          </h1> 
+          <button onClick={handleClose} className={css.close} />
+        </div>
+        <p className={css.subtitle}>
+          В качестве команд G-машины используется последовательность макросов, приведенная в таблице:
+        </p>
         <table>
           <tbody>
             <tr>

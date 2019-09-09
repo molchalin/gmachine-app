@@ -16,6 +16,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 2px 2px 2px 0;
+    flex-grow: 1;
+    height: 100%;
 }
 
 .button:hover {

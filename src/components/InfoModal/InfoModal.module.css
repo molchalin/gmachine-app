@@ -26,12 +26,13 @@
 }
 
 .close {
-    position: absolute;
-    top: 40px;
-    right: 24px;
+    position: relative;
+    top: 0;
+    right: 0;
     width: 32px;
     height: 32px;
     opacity: 0.6;
+    flex-shrink: 0;
     background: transparent;
     border: none;
     outline: none;
@@ -64,6 +65,12 @@
     margin: 0;
     padding-bottom: 15px;
     color: #92ee1c;
+}
+
+.headingWrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .button {

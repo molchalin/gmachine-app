@@ -1,105 +1,105 @@
 .section {
-    display: none;
-    background: rgba(255, 255, 255, 0.6);
-    height: 100%;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
+  display: none;
+  background: rgba(255, 255, 255, 0.6);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .modal {
-    display: none;
-    background: #333;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow: scroll;
-    width: 70%;
-    max-height: 80%;
-    padding: 40px 24px 36px;
+  display: none;
+  background: #333;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: scroll;
+  width: 70%;
+  max-height: 80%;
+  padding: 40px 24px 36px;
 }
 
 .tableContainer {
-    overflow: scroll;
+  overflow: scroll;
 }
 
 .close {
-    position: relative;
-    top: 0;
-    right: 0;
-    width: 32px;
-    height: 32px;
-    opacity: 0.6;
-    flex-shrink: 0;
-    background: transparent;
-    border: none;
-    outline: none;
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  outline: none;
 }
 
 .close:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 .close::before,
 .close::after {
-    position: absolute;
-    left: 15px;
-    content: ' ';
-    height: 33px;
-    width: 4px;
-    background-color: #fff;
-    bottom: 0;
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 33px;
+  width: 4px;
+  background-color: #fff;
+  bottom: 0;
 }
 
 .close::before {
-    transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .close::after {
-    transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .heading {
-    margin: 0;
-    padding-bottom: 15px;
-    color: #92ee1c;
+  margin: 0;
+  padding-bottom: 15px;
+  color: #92ee1c;
 }
 
 .headingWrap {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .button {
-    margin: 1em 2px 0;
-    width: calc(100% - 4px);
+  margin: 1em 2px 0;
+  width: calc(100% - 4px);
 }
 
 .ceil {
-    background: #fff;;
-    color: #333;
+  background: #fff;
+  color: #333;
 }
 
 .head {
-    background: #999;
-    color: #333; 
+  background: #999;
+  color: #333;
 }
 
 .ceil,
 .head,
 .highlightedCeil {
-    padding: 10px;
-    text-align: center;
+  padding: 10px;
+  text-align: center;
 }
 
 .subtitle {
-    margin: 1em 0;
-    color: #92ee1c;
+  margin: 1em 0;
+  color: #92ee1c;
 }
 
 .opened {
-    display: block;
+  display: block;
 }

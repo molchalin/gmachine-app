@@ -1,31 +1,31 @@
 .button {
-    display: inline-block;
-    outline: none;
-    text-decoration: none;
-    color: #333;
-    border: none;
-    transition: 0.3s;
-    margin: 0;
-    padding: 0.75rem 1rem;
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.5;
-    background: #333;
-    box-sizing: border-box;
-    color: #fff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 2px 2px 2px 0;
-    flex-grow: 1;
-    height: 100%;
+  display: inline-block;
+  outline: none;
+  text-decoration: none;
+  color: #333;
+  border: none;
+  transition: 0.3s;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5;
+  background: #333;
+  box-sizing: border-box;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 2px 2px 2px 0;
+  flex-grow: 1;
+  height: 100%;
 }
 
 .button:hover {
-    background: #92ee1c;
-    color: #333;
+  background: #92ee1c;
+  color: #333;
 }
 
 .button:disabled {
-    background: #999;
-    color: #333;
+  background: #999;
+  color: #333;
 }

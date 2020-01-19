@@ -1,33 +1,33 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
 }
 
 .commandsContainer {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    max-height: 81px;
-    margin: 2px;
-    background: #333;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-height: 81px;
+  margin: 2px;
+  background: #333;
+  overflow: hidden;
 }
 
 .command {
-    font-size: 18px;
-    padding: 3px 8px;
-    color: #fff;
+  font-size: 18px;
+  padding: 3px 8px;
+  color: #fff;
 }
 
 .commands {
-    position: relative;
-    transition: 0.3s;
+  position: relative;
+  transition: 0.3s;
 }
 
 .active {
-    font-weight: bold;
-    background: #999;
-    color: #333;
+  font-weight: bold;
+  background: #999;
+  color: #333;
 }

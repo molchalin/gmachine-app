@@ -35,7 +35,7 @@ class Main extends React.Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    fetch("http://gmachine-api.herokuapp.com:8080/", {
+    fetch("http://gmachine-api.herokuapp.com/", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"

@@ -17,44 +17,79 @@ const emptyDiff = {
   stack: []
 };
 
+const API_URL = "http://localhost:8080";
+const DEFAULT_CODE = "BEGIN\nPUSHINT 2\nPUSHINT 2\nMUL\nEND";
+const DEFAULT_LAMBDA_CODE = "(\\x.((+ 2) x) 13)";
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.textArea = React.createRef();
     this.state = {
       counter: 0,
-      diff: Object.assign({}, emptyDiff),
+      diff: { ...emptyDiff },
       commands: [],
       isModalOpened: false,
-      error: null
+      error: null,
+      isGCode: true,
+      gCode: DEFAULT_CODE,
+      lambdaCode: DEFAULT_LAMBDA_CODE
     };
-    this.value = initialCode;
   }
 
-  handleChange = event => {
-    this.value = event.target.value;
+  handleChange = () => {
+    this.setState(({ isGCode }) =>
+      isGCode
+        ? { gCode: this.textArea.current.value }
+        : { lambdaCode: this.textArea.current.value }
+    );
   };
   handleSubmit = event => {
+    const { isGCode, gCode, lambdaCode, counter } = this.state;
     event.preventDefault();
-    fetch("http://gmachine-api.herokuapp.com/", {
+    fetch(API_URL + (isGCode ? "/gcode" : "/lambda"), {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       method: "POST",
       mode: "cors",
-      body: JSON.stringify({ code: this.value })
+      body: JSON.stringify({ code: isGCode ? gCode : lambdaCode })
     })
       .then(response => response.json())
       .then(coms => {
-        //TODO Clean graph and stack
-        this.setState({ commands: coms.diff, error: coms.err, counter: 0 });
-        console.log(coms);
-        if (!coms.length && coms.err) {
-          alert(coms.err);
-        }
+        let cnt = counter;
+        let f = () => {
+          if (cnt) {
+            cnt--;
+            setTimeout(() => this.decrease(null, f), 10);
+          } else {
+            this.setState(({ isGCode }) => {
+              if (isGCode) {
+                if (!coms.diff.length && coms.err) {
+                  alert(coms.err);
+                }
+                return {
+                  commands: coms.diff,
+                  error: coms.err,
+                  counter: 0,
+                  diff: { ...emptyDiff }
+                };
+              } else {
+                return { isGCode: true, gCode: coms.result.join("\n") };
+              }
+            });
+          }
+        };
+        f();
       })
       .catch(e => alert(e));
   };
+
+  changeMode = () =>
+    this.setState(({ isGCode }) => {
+      return { isGCode: !isGCode };
+    });
 
   openModal = () => this.setState({ isModalOpened: true });
 
@@ -79,7 +114,7 @@ class Main extends React.Component {
       return { diff };
     });
 
-  decrease = () =>
+  decrease = (_, cb = () => {}) =>
     this.setState(state => {
       if (state.counter > 0) {
         state.counter -= 1;
@@ -94,10 +129,18 @@ class Main extends React.Component {
       return {
         diff: Object.assign({}, emptyDiff)
       };
-    });
+    }, cb);
 
   render() {
-    const { commands, diff, counter, isModalOpened } = this.state;
+    const {
+      commands,
+      diff,
+      counter,
+      isModalOpened,
+      isGCode,
+      gCode,
+      lambdaCode
+    } = this.state;
 
     return (
       <>
@@ -107,22 +150,25 @@ class Main extends React.Component {
         >
           <Visualization diff={diff} counter={counter} commands={commands} />
           <div className={css.formContainer}>
-            <form
-              className={css.form}
-              onSubmit={this.handleSubmit}
-              onChange={this.handleChange}
-            >
-              <textarea defaultValue={this.value} className={css.textarea} />
+            <form className={css.form} onSubmit={this.handleSubmit}>
+              <textarea
+                onChange={this.handleChange}
+                value={isGCode ? gCode : lambdaCode}
+                className={css.textarea}
+                ref={this.textArea}
+              />
               <div className={css.buttons}>
                 <Button className={css.button} title="Отправить" type="submit">
                   Отправить
                 </Button>
                 <Button
-                  title="Справка"
                   type="button"
-                  onClick={this.openModal}
+                  onClick={this.changeMode}
                   className={css.button}
                 >
+                  {isGCode ? "G" : "λ"}
+                </Button>
+                <Button title="Справка" type="button" onClick={this.openModal}>
                   Справка
                 </Button>
                 <Button
@@ -149,7 +195,5 @@ class Main extends React.Component {
     );
   }
 }
-
-const initialCode = "BEGIN\nPUSHINT 2\nPUSHINT 2\nMUL\nEND"
 
 export default Main;

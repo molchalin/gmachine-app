@@ -47,6 +47,7 @@ class Main extends React.Component {
   handleSubmit = event => {
     const { isGCode, gCode, lambdaCode, counter } = this.state;
     event.preventDefault();
+    let code;
     fetch(API_URL + (isGCode ? "/gcode" : "/lambda"), {
       headers: {
         Accept: "application/json",
@@ -56,8 +57,14 @@ class Main extends React.Component {
       mode: "cors",
       body: JSON.stringify({ code: isGCode ? gCode : lambdaCode })
     })
-      .then(response => response.json())
-      .then(coms => {
+      .then(response =>{
+          code = response.status;
+          return response.json();
+      }).then(body => {
+        if (code != 200) {
+            alert(code + ": " + (body.err ? body.err : body));
+            return
+        }
         let cnt = counter;
         let f = () => {
           if (cnt) {
@@ -66,17 +73,17 @@ class Main extends React.Component {
           } else {
             this.setState(({ isGCode }) => {
               if (isGCode) {
-                if (!coms.diff.length && coms.err) {
-                  alert(coms.err);
+                if (!body.diff.length && body.err) {
+                  alert(body.err);
                 }
                 return {
-                  commands: coms.diff,
-                  error: coms.err,
+                  commands: body.diff,
+                  error: body.err,
                   counter: 0,
                   diff: { ...emptyDiff }
                 };
               } else {
-                return { isGCode: true, gCode: coms.result.join("\n") };
+                return { isGCode: true, gCode: body.result.join("\n") };
               }
             });
           }

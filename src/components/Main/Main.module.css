@@ -24,7 +24,12 @@
 }
 
 .button {
-  flex-grow: 2;
+  flex: 2;
+}
+
+.moreButton, 
+.lessButton {
+    flex: 1;
 }
 
 .lessButton {

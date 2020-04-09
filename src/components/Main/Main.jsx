@@ -19,7 +19,7 @@ const emptyDiff = {
 
 const API_URL = "http://localhost:8080";
 const DEFAULT_CODE = "BEGIN\nPUSHINT 2\nPUSHINT 2\nMUL\nEND";
-const DEFAULT_LAMBDA_CODE = "(\\x.((+ 2) x) 13)";
+const DEFAULT_LAMBDA_CODE = "letrec sqr = \\x -> ((* x) x) in  (sqr 100)";
 
 class Main extends React.Component {
   constructor(props) {
@@ -33,7 +33,8 @@ class Main extends React.Component {
       error: null,
       isGCode: true,
       gCode: DEFAULT_CODE,
-      lambdaCode: DEFAULT_LAMBDA_CODE
+      lambdaCode: DEFAULT_LAMBDA_CODE,
+      onlyResult: false,
     };
   }
 
@@ -45,7 +46,7 @@ class Main extends React.Component {
     );
   };
   handleSubmit = event => {
-    const { isGCode, gCode, lambdaCode, counter } = this.state;
+    const { isGCode, gCode, lambdaCode, counter, onlyResult } = this.state;
     event.preventDefault();
     let code;
     fetch(API_URL + (isGCode ? "/gcode" : "/lambda"), {
@@ -55,7 +56,10 @@ class Main extends React.Component {
       },
       method: "POST",
       mode: "cors",
-      body: JSON.stringify({ code: isGCode ? gCode : lambdaCode })
+      body: JSON.stringify({
+          code: isGCode ? gCode : lambdaCode,
+          onlyResult: isGCode ? onlyResult: undefined,
+      })
     })
       .then(response =>{
           code = response.status;
@@ -76,6 +80,9 @@ class Main extends React.Component {
                 if (!body.diff.length && body.err) {
                   alert(body.err);
                 }
+                  if (body.result !== null) {
+                      alert(`Результат: ${body.result}`)
+                  }
                 return {
                   commands: body.diff,
                   error: body.err,
@@ -96,6 +103,11 @@ class Main extends React.Component {
   changeMode = () =>
     this.setState(({ isGCode }) => {
       return { isGCode: !isGCode };
+    });
+
+  changeOnlyResult = () =>
+    this.setState(({ onlyResult }) => {
+      return { onlyResult: !onlyResult };
     });
 
   openModal = () => this.setState({ isModalOpened: true });
@@ -146,7 +158,8 @@ class Main extends React.Component {
       isModalOpened,
       isGCode,
       gCode,
-      lambdaCode
+      lambdaCode,
+      onlyResult
     } = this.state;
 
     return (
@@ -170,6 +183,13 @@ class Main extends React.Component {
                 </Button>
                 <Button
                   type="button"
+                  onClick={this.changeOnlyResult}
+                  className={css.button}
+                >
+                {onlyResult ? "Только результат" : "Рисовать граф"}
+                </Button>
+                <Button
+                  type="button"
                   onClick={this.changeMode}
                   className={css.button}
                 >
@@ -182,6 +202,7 @@ class Main extends React.Component {
                   type="button"
                   disabled={!commands.length || counter === commands.length}
                   onClick={this.increase}
+                  className={css.moreButton}
                 >
                   +
                 </Button>

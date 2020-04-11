@@ -17,7 +17,7 @@ const emptyDiff = {
   stack: []
 };
 
-const API_URL = "http://localhost:8080";
+const API_URL = process.env.DEV ? "http://localhost:8080" : "https://gmachine-api.herokuapp.com";
 const DEFAULT_CODE = "BEGIN\nPUSHINT 2\nPUSHINT 2\nMUL\nEND";
 const DEFAULT_LAMBDA_CODE = "letrec sqr = \\x -> ((* x) x) in  (sqr 100)";
 

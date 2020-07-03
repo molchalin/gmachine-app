@@ -1,3 +1,9 @@
+# Project has Moved
+
+Project's new home is at https://gitlab.com/skibcsit/gmachine-app/
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
